@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>MEGA PRANK</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: black;
+      font-family: Arial, sans-serif;
+    }
+
+    #txt {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 8vw;
+      color: white;
+      text-shadow: 0 0 30px red;
+      animation: pulse 0.3s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { transform: translate(-50%, -50%) scale(1); }
+      to   { transform: translate(-50%, -50%) scale(1.2); }
+    }
+  </style>
+</head>
+
+<body>
+
+<audio id="sound" loop>
+  <source src="https://www.soundjay.com/human/sounds/scream-01.mp3" type="audio/mpeg">
+</audio>
+
+<div id="txt">HEHEHEHEHE!!!</div>
+
+<script>
+  // Próba wejścia fullscreen natychmiast
+  function goFull() {
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen();
+    }
+  }
+  goFull();
+
+  // Miganie tła
+  setInterval(() => {
+    document.body.style.background =
+      "#" + Math.floor(Math.random() * 16777215).toString(16);
+  }, 100);
+
+  // Auto-play audio bardzo głośno
+  const snd = document.getElementById("sound");
+  snd.volume = 1.0; // max
+  snd.play().catch(() => {}); // jeśli blokowane, spróbuje później
+
+  // Ponawianie odtwarzania co 0.5s jeśli przeglądarka nie pozwoli na autoplay
+  setInterval(() => snd.play().catch(() => {}), 500);
+</script>
+
+</body>
+</html>
