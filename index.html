@@ -2,35 +2,49 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>MEGA PRANK</title>
+  <title>PRANK START</title>
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
+      margin: 0; padding: 0;
       background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: white;
       font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    #startBtn {
+      padding: 20px 40px;
+      font-size: 8vw;
+      background: red;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      box-shadow: 0 0 20px red;
     }
 
     #txt {
+      display: none;
       position: absolute;
-      top: 50%;
-      left: 50%;
+      top: 50%; left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 8vw;
-      color: white;
-      text-shadow: 0 0 30px red;
+      font-size: 9vw;
+      text-shadow: 0 0 40px red;
       animation: pulse 0.3s infinite alternate;
     }
 
     @keyframes pulse {
       from { transform: translate(-50%, -50%) scale(1); }
-      to   { transform: translate(-50%, -50%) scale(1.2); }
+      to   { transform: translate(-50%, -50%) scale(1.3); }
     }
   </style>
 </head>
-
 <body>
+
+<button id="startBtn">START</button>
 
 <audio id="sound" loop>
   <source src="https://www.soundjay.com/human/sounds/scream-01.mp3" type="audio/mpeg">
@@ -39,28 +53,14 @@
 <div id="txt">HEHEHEHEHE!!!</div>
 
 <script>
-  // Próba wejścia fullscreen natychmiast
-  function goFull() {
+  const startBtn = document.getElementById("startBtn");
+  const sound = document.getElementById("sound");
+  const txt = document.getElementById("txt");
+
+  async function start() {
+    // ukryj przycisk
+    startBtn.style.display = "none";
+    txt.style.display = "block";
+
+    // Fullscreen
     if (document.documentElement.requestFullscreen) {
-      document.documentElement.requestFullscreen();
-    }
-  }
-  goFull();
-
-  // Miganie tła
-  setInterval(() => {
-    document.body.style.background =
-      "#" + Math.floor(Math.random() * 16777215).toString(16);
-  }, 100);
-
-  // Auto-play audio bardzo głośno
-  const snd = document.getElementById("sound");
-  snd.volume = 1.0; // max
-  snd.play().catch(() => {}); // jeśli blokowane, spróbuje później
-
-  // Ponawianie odtwarzania co 0.5s jeśli przeglądarka nie pozwoli na autoplay
-  setInterval(() => snd.play().catch(() => {}), 500);
-</script>
-
-</body>
-</html>
