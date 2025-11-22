@@ -2,61 +2,87 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PRANK</title>
+<title>ERROR SYSTEM</title>
 <style>
 body {
-    background: black;
-    margin: 0;
-    overflow: hidden;
+    margin:0;
+    overflow:hidden;
+    background:black;
 }
+
 #startBtn {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 40px 60px;
-    font-size: 32px;
-    background: red;
-    color: white;
-    border: none;
-    border-radius: 20px;
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    padding:40px 70px;
+    font-size:34px;
+    background:#ff0000;
+    color:white;
+    border:none;
+    border-radius:20px;
 }
-#content {
-    display: none;
-    width: 100vw;
-    height: 100vh;
-    background: url('https://i.imgur.com/LEdC7kN.jpeg') center/cover no-repeat;
+
+#screen {
+    display:none;
+    width:100vw;
+    height:100vh;
+    position:fixed;
+    top:0;
+    left:0;
+    font-size:40px;
+    font-weight:bold;
+    color:white;
+    text-align:center;
+    padding-top:40vh;
+    animation:glitch 0.1s infinite;
 }
+
+/* glitch effect */
+@keyframes glitch {
+    0%   { background:#ff0000; transform:translate(0,0) }
+    20%  { background:#00ff00; transform:translate(5px,-5px) }
+    40%  { background:#0000ff; transform:translate(-5px,3px) }
+    60%  { background:#ffff00; transform:translate(3px,5px) }
+    80%  { background:#ff00ff; transform:translate(-3px,-3px) }
+    100% { background:#00ffff; transform:translate(0,0) }
+}
+
 </style>
 </head>
 <body>
 
 <button id="startBtn">START</button>
-<div id="content"></div>
 
-<!-- TU PODMIENIAMY NA TWÓJ PLIK -->
+<div id="screen">⚠ SYSTEM ERROR ⚠<br>CRITICAL FAILURE</div>
+
 <audio id="sound" src="sound.mp3" loop></audio>
 
 <script>
-async function goFullscreen() {
-    const elem = document.documentElement;
-    if (elem.requestFullscreen) await elem.requestFullscreen();
-    else if (elem.webkitRequestFullscreen) await elem.webkitRequestFullscreen();
+async function goFS() {
+    let el = document.documentElement;
+    if (el.requestFullscreen) el.requestFullscreen();
+    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
 }
 
 document.getElementById("startBtn").addEventListener("click", async () => {
-    await goFullscreen();
-
-    document.getElementById("startBtn").style.display = "none";
-    document.getElementById("content").style.display = "block";
+    await goFS();
 
     const audio = document.getElementById("sound");
+    audio.volume = 1.0;
+
+    // wibracje co 300 ms (jeśli telefon pozwala)
+    setInterval(() => {
+        if (navigator.vibrate) navigator.vibrate(200);
+    }, 300);
+
+    document.getElementById("startBtn").style.display = "none";
+    document.getElementById("screen").style.display = "block";
 
     try {
         await audio.play();
     } catch(e) {
-        // Samsung Internet czasem blokuje audio nawet po kliknięciu — drugi klik odblokowuje
-        alert("Kliknij jeszcze raz, żeby włączyć dźwięk.");
+        alert("Kliknij jeszcze raz, żeby odpalić efekt!");
     }
 });
 </script>
