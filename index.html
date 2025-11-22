@@ -1,78 +1,63 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PRANK</title>
-
 <style>
-  body {
-    margin: 0;
+body {
     background: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    text-align: center;
+    margin: 0;
     overflow: hidden;
-  }
-
-  #start {
-    font-size: 12vw;
-    padding: 40px 70px;
+}
+#startBtn {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 40px 60px;
+    font-size: 32px;
     background: red;
     color: white;
     border: none;
     border-radius: 20px;
-    box-shadow: 0 0 40px red;
-  }
-
-  #txt {
+}
+#content {
     display: none;
-    font-size: 15vw;
-    color: white;
-    text-shadow: 0 0 40px red;
-    position: absolute;
-  }
+    width: 100vw;
+    height: 100vh;
+    background: url('https://i.imgur.com/LEdC7kN.jpeg') center/cover no-repeat;
+}
 </style>
 </head>
-
 <body>
 
-<button id="start">START</button>
-<div id="txt">HAHAHAHA!!!</div>
+<button id="startBtn">START</button>
+<div id="content"></div>
 
-<audio id="snd" loop preload="auto">
-  <source src="sound.mp3" type="audio/mpeg">
-</audio>
+<!-- TU PODMIENIAMY NA TWÓJ PLIK -->
+<audio id="sound" src="sound.mp3" loop></audio>
 
 <script>
-const btn = document.getElementById("start");
-const txt = document.getElementById("txt");
-const snd = document.getElementById("snd");
+async function goFullscreen() {
+    const elem = document.documentElement;
+    if (elem.requestFullscreen) await elem.requestFullscreen();
+    else if (elem.webkitRequestFullscreen) await elem.webkitRequestFullscreen();
+}
 
-btn.addEventListener("click", async () => {
+document.getElementById("startBtn").addEventListener("click", async () => {
+    await goFullscreen();
 
-  btn.style.display = "none";
-  txt.style.display = "block";
+    document.getElementById("startBtn").style.display = "none";
+    document.getElementById("content").style.display = "block";
 
-  // FULLSCREEN
-  if (document.documentElement.requestFullscreen) {
-    document.documentElement.requestFullscreen().catch(()=>{});
-  }
+    const audio = document.getElementById("sound");
 
-  // SOUND
-  snd.volume = 1.0;
-  await snd.play().catch(()=>{});
-
-  // retry every 200ms for Samsung Internet
-  setInterval(() => snd.play().catch(()=>{}), 200);
-
-  // flashing background
-  setInterval(() => {
-    document.body.style.background =
-      "#" + Math.floor(Math.random() * 16777215).toString(16);
-  }, 60);
-
+    try {
+        await audio.play();
+    } catch(e) {
+        // Samsung Internet czasem blokuje audio nawet po kliknięciu — drugi klik odblokowuje
+        alert("Kliknij jeszcze raz, żeby włączyć dźwięk.");
+    }
 });
 </script>
 
