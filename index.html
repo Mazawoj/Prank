@@ -2,65 +2,84 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>PRANK</title>
-
+<title>START</title>
 <style>
   body {
-    background: black;
     margin: 0;
-    height: 100vh;
+    background: black;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;
-    font-size: 9vw;
-    text-shadow: 0 0 20px red;
+    height: 100vh;
     text-align: center;
+    overflow: hidden;
+    user-select: none;
   }
 
-  #start {
-    padding: 20px 40px;
-    font-size: 8vw;
+  #startBtn {
+    font-size: 14vw;
+    padding: 40px 60px;
     background: red;
+    color: white;
     border: none;
-    border-radius: 20px;
-    box-shadow: 0 0 30px red;
+    border-radius: 30px;
+    box-shadow: 0 0 50px red;
+    z-index: 5;
+  }
+
+  #title {
+    display: none;
+    font-size: 15vw;
+    color: white;
+    position: absolute;
+    z-index: 5;
+    text-shadow: 0 0 40px red;
   }
 </style>
 </head>
 
 <body>
 
-<button id="start">START</button>
+<button id="startBtn">START</button>
+<div id="title">HAHAHAHA!</div>
 
-<audio id="snd" loop preload="auto">
+<audio id="sound" loop preload="auto">
   <source src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_772ba9b9d4.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-const s = document.getElementById("snd");
-const btn = document.getElementById("start");
+const startBtn = document.getElementById("startBtn");
+const title = document.getElementById("title");
+const sound = document.getElementById("sound");
 
-btn.addEventListener("click", async () => {
+startBtn.addEventListener("click", async () => {
+  // pokaż efekt, ukryj START
+  startBtn.style.display = "none";
+  title.style.display = "block";
 
-  // Fullscreen – Chrome wymaga kliknięcia
+  // Fullscreen
   if (document.documentElement.requestFullscreen) {
-    document.documentElement.requestFullscreen();
+    document.documentElement.requestFullscreen().catch(() => {});
   }
 
-  document.body.innerHTML = "HEHEHEHE!!!";
+  // próba odtworzenia dźwięku
+  try {
+    sound.volume = 1.0;
+    await sound.play();
+  } catch (e) {}
 
-  // efekt migania
+  // wymuszanie ponownego play (obejście blokady Samsung Internet)
+  setInterval(() => {
+    sound.play().catch(() => {});
+  }, 300);
+
+  // miganie ekranu
   setInterval(() => {
     document.body.style.background =
       "#" + Math.floor(Math.random() * 16777215).toString(16);
   }, 70);
-
-  try {
-    s.volume = 1.0;
-    await s.play();
-  } catch (e) {}
 });
 </script>
+
 </body>
 </html>
