@@ -1,66 +1,66 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>PRANK START</title>
-  <style>
-    body {
-      margin: 0; padding: 0;
-      background: black;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      color: white;
-      font-family: Arial, sans-serif;
-      text-align: center;
-    }
+<meta charset="UTF-8">
+<title>PRANK</title>
 
-    #startBtn {
-      padding: 20px 40px;
-      font-size: 8vw;
-      background: red;
-      color: white;
-      border: none;
-      border-radius: 20px;
-      box-shadow: 0 0 20px red;
-    }
+<style>
+  body {
+    background: black;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 9vw;
+    text-shadow: 0 0 20px red;
+    text-align: center;
+  }
 
-    #txt {
-      display: none;
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 9vw;
-      text-shadow: 0 0 40px red;
-      animation: pulse 0.3s infinite alternate;
-    }
-
-    @keyframes pulse {
-      from { transform: translate(-50%, -50%) scale(1); }
-      to   { transform: translate(-50%, -50%) scale(1.3); }
-    }
-  </style>
+  #start {
+    padding: 20px 40px;
+    font-size: 8vw;
+    background: red;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 0 30px red;
+  }
+</style>
 </head>
+
 <body>
 
-<button id="startBtn">START</button>
+<button id="start">START</button>
 
-<audio id="sound" loop>
-  <source src="https://www.soundjay.com/human/sounds/scream-01.mp3" type="audio/mpeg">
+<audio id="snd" loop preload="auto">
+  <source src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_772ba9b9d4.mp3" type="audio/mpeg">
 </audio>
 
-<div id="txt">HEHEHEHEHE!!!</div>
-
 <script>
-  const startBtn = document.getElementById("startBtn");
-  const sound = document.getElementById("sound");
-  const txt = document.getElementById("txt");
+const s = document.getElementById("snd");
+const btn = document.getElementById("start");
 
-  async function start() {
-    // ukryj przycisk
-    startBtn.style.display = "none";
-    txt.style.display = "block";
+btn.addEventListener("click", async () => {
 
-    // Fullscreen
-    if (document.documentElement.requestFullscreen) {
+  // Fullscreen – Chrome wymaga kliknięcia
+  if (document.documentElement.requestFullscreen) {
+    document.documentElement.requestFullscreen();
+  }
+
+  document.body.innerHTML = "HEHEHEHE!!!";
+
+  // efekt migania
+  setInterval(() => {
+    document.body.style.background =
+      "#" + Math.floor(Math.random() * 16777215).toString(16);
+  }, 70);
+
+  try {
+    s.volume = 1.0;
+    await s.play();
+  } catch (e) {}
+});
+</script>
+</body>
+</html>
